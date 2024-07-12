@@ -9,16 +9,46 @@
   <script defer src="./js/blackjack.js"></script>
 </head>
 <body>
+  <div class="bet">
+    <input id="bet-placeholder" placeholder="How much will you bet?">
+    <button id="bet-button">Place Bet</button>
+    <p id="player-message"></p>
+    <p id="player-cash"></p>
+  </div>
+  
+  <button id="start-button">Start Game</button>
+
   <div class="container" id="dealer">
+    <h1>Dealer</h1>
     <div id="dealer-card-1" class="card large outline back-blue shadow"></div>
     <div id="dealer-card-2" class="card large outline back-blue shadow"></div>
   </div>
-  <button id="start-button">Start Game</button>
+
   <div class="container" id="player">
+    <h1>Player</h1>
     <div id="player-card-1" class="card large outline back-blue shadow"></div>
     <div id="player-card-2" class="card large outline back-blue shadow"></div>
   </div>
-
+  
+  <div class="container" id="player-buttons">
+    <button class="player-button" id="hit-button">Hit</button>
+    <button class ="player'button" id="stand-button">Stand</button>
+  </div>
+  
+  <div id="help-directions">
+    How to play Blackjack:
+    <br />
+    <br />
+    1. Player and Dealer will receive 2 cards each
+    <br />
+    2. You can draw more cards using the ‘Hit’ button or stay using the ‘Stand’ button.
+    <br />
+    3. Your goal is to be closer to 21 than the dealer, without going over
+    <br />
+    4. If you beat the Dealer, you get double your money! IF not, you lose the bet you place.
+    <br />
+    5. Test your luck – good luck!
+  </div>
   <button id="help-button">Help?</button>
 </body>
 </html>
