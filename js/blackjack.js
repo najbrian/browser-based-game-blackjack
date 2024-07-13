@@ -25,17 +25,20 @@ init()
 const randomizeCard = () => {
   let randomIdx = Math.floor(Math.random() * deck1.length)
   let randomizedCard = deck1.splice(randomIdx, 1)[0]
-  dealtCardTemp = randomizedCard;
-  distributeCard();
+  return randomizedCard
   }
 
 const distributeCard = () => {
-  dealerHiddenCard = dealtCardTemp;
+  dealerHiddenCard = randomizeCard();
   dealerCount += getCardValue(dealerHiddenCard)
   dealerAces += checkForAces(dealerHiddenCard)
+  document.getElementById('dealer-card').classList.remove('back-blue', 'shadow', 'outline');
+  document.getElementById('dealer-card').classList.add(dealerHiddenCard);
+
+  console.log(document.getElementById('dealer-card').classList);
 
   while (dealerCount<17) {
-    let dealerHitCard = dealtCardTemp
+    let dealerHitCard = randomizeCard()
     let dealerDiv = document.getElementById('dealer');
     let dealerNewDiv = document.createElement('div');
 
@@ -44,8 +47,11 @@ const distributeCard = () => {
     
     dealerCount +=getCardValue(dealerHitCard)
     dealerAces += checkForAces(dealerHitCard)
+    
+    randomizeCard();
 
-    // randomizeCard();
+    console.log(dealerCount)
+    console.log(dealerAces)
   }
   console.log(dealerCount)
   console.log(dealerHiddenCard)
@@ -55,7 +61,7 @@ const distributeCard = () => {
 const getCardValue = (card) => {
   let cardValue = card.slice(1)
   let cardNumberValue = cardValue
-  console.log(cardNumberValue);
+  console.log(card);
 
   if( cardNumberValue === 'A') {
     return 11;
@@ -79,6 +85,7 @@ if(button === 'start-button') {
 }
 if(button === 'bet-button') {
   randomizeCard();
+  distributeCard();
 }
 
 }
