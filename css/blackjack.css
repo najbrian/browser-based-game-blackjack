@@ -7,12 +7,12 @@ body {
   height: 50vmax;
 }
 
+
 .container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
 
 .card {
@@ -27,10 +27,7 @@ body {
   box-shadow: 7px 7px 7px 0 rgba(41, 41, 41, 0.95) !important;
 }
 
-#player-buttons {
-  display: none;
-}
-/* .btn {
+.btn {
   margin-top: 2vh;
   padding: .8rem;
   border-radius: 5px;
@@ -38,22 +35,5 @@ body {
   background-color: #202d7a;
   font-weight: bold;
   border: 2px solid #202d7a;
-} */
-
-.bet {
-  display: none
-}
-
-#dealer {
-display: none;
-}
-
-#player {
-  display: none;
-}
-
-
-
-#help-directions {
-  display: none;
+  display: inline-block;
 }
