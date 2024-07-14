@@ -44,6 +44,11 @@ const distributeCard = () => {
   dealerAces += checkForAces(dealerHiddenCard)
   document.getElementById('dealer-card').classList.remove('back-blue', 'shadow', 'outline');
   document.getElementById('dealer-card').classList.add(dealerHiddenCard);
+<<<<<<< HEAD
+=======
+
+  console.log(document.getElementById('dealer-card').classList);
+>>>>>>> a8b2f7cdd64d7137c4e1e192be433cb5e42262d5
 
   while (dealerCount<17) {
     let dealerHitCard = randomizeCard()
@@ -55,9 +60,14 @@ const distributeCard = () => {
     
     dealerCount +=getCardValue(dealerHitCard)
     dealerAces += checkForAces(dealerHitCard)
+    
+    randomizeCard();
 
+<<<<<<< HEAD
     checkAces();
 
+=======
+>>>>>>> a8b2f7cdd64d7137c4e1e192be433cb5e42262d5
     console.log(dealerCount)
     console.log(dealerAces)
   }
@@ -69,7 +79,11 @@ const distributeCard = () => {
 const getCardValue = (card) => {
   let cardValue = card.slice(1)
   let cardNumberValue = cardValue
+<<<<<<< HEAD
   // console.log(card);
+=======
+  console.log(card);
+>>>>>>> a8b2f7cdd64d7137c4e1e192be433cb5e42262d5
 
   if( cardNumberValue === 'A') {
     return 11;
