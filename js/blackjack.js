@@ -45,7 +45,6 @@ const distributeCard = () => {
   document.getElementById('dealer-card').classList.remove('back-blue', 'shadow', 'outline');
   document.getElementById('dealer-card').classList.add(dealerHiddenCard);
 
-  
   while (dealerCount<17) {
     let dealerHitCard = randomizeCard()
     let dealerDiv = document.getElementById('dealer');
