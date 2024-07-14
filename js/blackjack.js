@@ -203,13 +203,28 @@ const betOption = () => {
   playerBetButton.style.display = 'block'
 }
 
-const placeBet = () => {
-  playerBet = Number(document.getElementById('bet-placeholder').value)
-  playerCash = playerCash - playerBet
-  console.log(playerBet);
-  console.log(playerCash)
-  document.getElementById('player-bet-value').innerHTML = `Player Bet: $${playerBet}`
+const placeBet = (evt) => {
+  playerBet = parseInt(document.getElementById('bet-placeholder').value)
 
+  if (typeof playerBet === 'number' && playerCash > 0 && playerCash > playerBet && playerBet > 0) {
+    playerCash = playerCash - playerBet
+    showPlayerDealerCards()
+    randomizeCard();
+    playerDistributeCard(evt)
+    document.getElementById('player-bet-value').innerHTML = `Player Bet: $${playerBet}`
+
+  } else if (typeof playerBet === 'number' && playerCash > 0 && playerCash < playerBet){
+    message.innerHTML = 'You have insufficient funds. Please place a proper numerical bet to play Blackjack.'
+    playerBet = 0
+    return;
+
+  } else {
+    message.innerHTML = 'Please place a numerical valued bet to play Blackjack.'
+    console.log(typeof playerBet);
+    console.log(playerCash)
+    playerBet = 0;
+    return;
+  }
 }
 
 const showPlayerDealerCards = () => {
@@ -231,10 +246,8 @@ const handleClick = (evt) => {
     betOption();
   }
   if (button === 'bet-button') {
-    placeBet();
-    showPlayerDealerCards()
-    randomizeCard();
-    playerDistributeCard(evt);
+    placeBet(evt);
+
   }
   if (button === 'hit-button') {
     playerHitButton();
