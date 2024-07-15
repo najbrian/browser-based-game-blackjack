@@ -11,15 +11,16 @@
 </head>
 
 <body>
+<h1>Brian's BlackJack Table</h1>
 
-
-  <button id="start-button">Start Game</button>
+  <button class='button' id="start-button">Start Game</button>
   <input id="bet-placeholder" placeholder="How much will you bet?">
   <button id="bet-button">Place Bet</button>
   
   
+  <h2>Dealer</h2>
   <div class="container" id="dealer">
-    <h1>Dealer</h1>
+    <br />
     <div id="dealer-card" class="card large back-blue"></div>
     <div id="dealer-showing-card" class="card large"></div>
   </div>
@@ -30,23 +31,23 @@
     <p id="player-bet-value"></p>
   </div>
   
-  <button id="new-bet-button">Place New Bet</button>
-  <button id="play-again-button">Play Again</button>
+  <button class='button' id="new-bet-button">Place New Bet</button>
+  <button class='button' id="play-again-button">Play Again</button>
   
+  <h2>Player</h2>
   <div class="container" id="player">
-    <h1>Player</h1>
     <div id="player-card-1" class="card large"></div>
     <div id="player-card-2" class="card large"></div>
   </div>
 
   <div class="container" id="player-buttons">
-    <button class="player-button" id="hit-button">Hit</button>
-    <button class="player-button" id="stand-button">Stand</button>
+    <button class="button player-button" id="hit-button">Hit</button>
+    <button class="button player-button" id="stand-button">Stand</button>
   </div>
 
 
   <div id="help-directions">
-    How to play Blackjack:
+    <span id='how-to-play-blackjack'>How to play Blackjack:</span>
     <br />
     <br />
     1. Player and Dealer will receive 2 cards each
@@ -59,7 +60,7 @@
     <br />
     5. Test your luck – good luck!
   </div>
-  <button id="help-button">Help?</button>
+  <button class='button' id="help-button">Help?</button>
 
   <div class= container id="playerCashPlaceholder">
     <p id="playerCash"></p>

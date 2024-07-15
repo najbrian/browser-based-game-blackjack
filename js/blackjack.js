@@ -372,6 +372,14 @@ const handleClick = (evt) => {
     document.getElementById('start-button').style.display = 'block'
     init();
   }
+  if (button === 'help-button') {
+    if (helpDirections.style.display === 'none') {
+      helpDirections.style.display = 'block'
+    } else {
+      helpDirections.style.display = 'none'
+
+    }
+  }
   document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
 }
 document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
