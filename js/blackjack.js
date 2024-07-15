@@ -26,60 +26,80 @@ const playerActionButtons = document.getElementById('player-buttons')
 const playerSubmittedBetValue = document.getElementById('bet-placeholder')
 const playerBetButton = document.getElementById('bet-button')
 const playAgainButton = document.getElementById('play-again-button')
+const newBetButton = document.getElementById('new-bet-button')
 
 const helpDirections = document.getElementById('help-directions')
 const playerCashMessage = document.getElementById('playercash')
 /*-------------------------------- Functions --------------------------------*/
 
-const init = () => {
-  deck1 = ["dA", "dQ", "dK", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02", "hA", "hQ", "hK", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02", "cA", "cQ", "cK", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02", "sA", "sQ", "sK", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02"]
-}
-
-init()
-
 const newGame = () => {
+
   dealerTotalCount = 0
   dealerAceCount = 0
   playerTotalCount = 0
   playerAceCount = 0
   playerBet = 0
 
+  newBetButton.style.display = 'none'
+}
+
+const dealerCardsElClass = () => {
   dealerCard1.className = ''
   dealerCard2.className = ''
   dealerCard1.classList.add('card', 'large', 'back-blue');
   dealerCard2.classList.add('card', 'large');
+}
+const dealerCardsElDisplay = () => {
+  dealerCard1.style.display = 'none'
+  dealerCard2.style.display = 'none'
+}
 
+const playerCardsElClass = () => {
   playerHoldingCard1.className = ''
   playerHoldingCard2.className = ''
   playerHoldingCard1.classList.add('card', 'large');
   playerHoldingCard2.classList.add('card', 'large');
-
-  dealerCard1.style.display = 'none'
-  dealerCard2.style.display = 'none'
-
+}
+const playerCardsElDisplay = () => {
   playerHoldingCard1.style.display = 'none'
   playerHoldingCard2.style.display = 'none'
-
-  console.log(dealerTotalCount, playerTotalCount)
-
   playerActionButtons.style.display = 'none'
   playerSubmittedBetValue.style.display = 'none'
   playerBetButton.style.display = 'none'
   playAgainButton.style.display = 'none'
+}
 
+const helpDirectionsDisplay = () => {
   helpDirections.style.display = 'none'
   message.innerHTML = ''
   document.getElementById('player-bet-value').innerHTML = ''
+}
 
-  playAgainButton.style.display = 'none'
+const nextRoundDisplay = () => {
+  newBetButton.style.display = 'none'
   const roundElements = document.querySelectorAll('.current-round-card')
   roundElements.forEach((element, i) => {
     element.remove()
   })
-  init()
 }
 
-newGame()
+
+const newDeck = () => {
+  deck1 = ["dA", "dQ", "dK", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02", "hA", "hQ", "hK", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02", "cA", "cQ", "cK", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02", "sA", "sQ", "sK", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02"]
+}
+
+const init = () => {
+  newGame();
+  newDeck();
+  dealerCardsElClass()
+  dealerCardsElDisplay()
+  playerCardsElClass()
+  playerCardsElDisplay()
+  helpDirectionsDisplay()
+}
+
+init();
+
 
 const randomizeCard = () => {
   let randomIdx = Math.floor(Math.random() * deck1.length)
@@ -90,25 +110,25 @@ const randomizeCard = () => {
 const checkAces = (count, aces) => {
   while (count >= 21 && aces >= 1) {
     count = count - 10
-    aces--;
-  } return count, aces;
+    aces = aces - 1;
+    console.log(count, aces)
+    return [count, aces]
+  } return [count, aces]
 }
 
 const blackjackWinLogic = () => {
   message.innerHTML = `You got BlackJack! You win! ${playerBet + (playerBet * 1.5)}`
   playerCash = playerCash + (playerBet + (playerBet * 1.5))
   document.getElementById('dealer-card').classList.remove('back-blue');
-  playAgainButton.style.display = 'block'
+  newBetButton.style.display = 'block'
   playerActionButtons.style.display = 'none'
-
 }
 
 const dealerBlackJackLogic = () => {
-
   message.innerHTML = `Dealer has 21. You lose ${playerBet}`
   playerCash = playerCash - playerBet
+  newBetButton.style.display = 'block'
   playerActionButtons.style.display = 'none'
-  playAgainButton.style.display = 'block'
 }
 
 const winLogic = () => {
@@ -173,14 +193,20 @@ const betOption = () => {
   console.log(playerTotalCount);
 }
 
-const dealerDistributeCard = () => {
+const dealersTurn = () => {
   document.getElementById('dealer-card').classList.remove('back-blue');
   playerActionButtons.style.display = 'none'
 
-  if (dealerTotalCount > 16) {
-    winLogic();
-  } else if (dealerTotalCount === 21) {
+  if (dealerTotalCount === 21) {
     dealerBlackJackLogic();
+  } else if (dealerTotalCount > 16) {
+    checkAces(dealerTotalCount, dealerAceCount);
+    const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
+    dealerTotalCount = aceTotalResult[0];
+    dealerAceCount = aceTotalResult[1];
+    if (dealerTotalCount > 21) {
+      winLogic();
+    }
   } else while (dealerTotalCount < 17) {
     let dealerHitCard = randomizeCard()
     let dealerDiv = document.getElementById('dealer');
@@ -191,25 +217,30 @@ const dealerDistributeCard = () => {
 
     dealerTotalCount += getCardValue(dealerHitCard)
     dealerAceCount += checkForAces(dealerHitCard)
-
     checkAces(dealerTotalCount, dealerAceCount);
+    
+    const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
+    dealerTotalCount = aceTotalResult[0];
+    dealerAceCount = aceTotalResult[1];
+
+    
     winLogic();
   }
 }
 
-const playerDistributeCard = (evt) => {
+const playerCards = () => {
+  if (playerTotalCount === 21) {
+    blackjackWinLogic();
+  }
+}
+
+const distributeCards = (evt) => {
   let playerCard1 = randomizeCard();
   let dealerShowingCard = randomizeCard();
   let playerCard2 = randomizeCard();
   let dealerHiddenCard = randomizeCard();
 
-  // if(evt === 'play-again-button') {
-  //   playerHoldingCard1.classList.remove(playerCard1);
-  //   playerHoldingCard2.classList.remove(playerCard2);
-  //   dealerCard1.classList.remove(dealerHiddenCard);
-  //   dealerCard2.classList.remove(dealerShowingCard);
-  // } else
-{ playerTotalCount += getCardValue(playerCard1)
+  playerTotalCount += getCardValue(playerCard1)
   playerAceCount += checkForAces(playerCard1)
   playerHoldingCard1.classList.add(playerCard1);
 
@@ -225,41 +256,41 @@ const playerDistributeCard = (evt) => {
   dealerAceCount += checkForAces(dealerHiddenCard)
   dealerCard1.classList.add(dealerHiddenCard, 'large');
 
-  if (playerTotalCount === 21) {
-    blackjackWinLogic();
-  }
-  console.log(dealerTotalCount, playerTotalCount);
-  console.log(playerHoldingCard1.classList,)
-  console.log(playerHoldingCard2.classList)
-  console.log(dealerCard1.classList)
-  console.log(dealerCard2.classList)
+  playerCards()
 }
-}
+
+
 
 const playerHitButton = () => {
   let playerHitCard = randomizeCard()
   let playerDiv = document.getElementById('player');
   let playerNewDiv = document.createElement('div');
 
-  playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
-  playerDiv.appendChild(playerNewDiv)
 
-  playerTotalCount += getCardValue(playerHitCard)
-  playerAceCount += checkForAces(playerHitCard)
+  // playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
+  // playerDiv.appendChild(playerNewDiv)
 
-  checkAces(playerTotalCount, playerAceCount);
+  // playerTotalCount += getCardValue(playerHitCard)
+  // playerAceCount += checkForAces(playerHitCard)
+
 
   if (playerTotalCount > 21) {
-    checkAces(playerTotalCount, playerAceCount)
-    console.log(playerTotalCount);
-    console.log(playerAceCount);
-    dealerDistributeCard();
-  }
-
-  if (playerTotalCount === 21) {
     playerActionButtons.style.display = 'none'
-    dealerDistributeCard();
+    winLogic()
+  } else if (playerTotalCount < 21) {
+    playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
+    playerDiv.appendChild(playerNewDiv)
+    playerTotalCount += getCardValue(playerHitCard)
+    playerAceCount += checkForAces(playerHitCard)
+  } else if (playerTotalCount === 21) {
+    playerActionButtons.style.display = 'none'
+    dealersTurn();
   }
+  console.log(playerTotalCount, playerAceCount)
+}
+
+const playerStandButton = () => {
+  dealersTurn();
 }
 
 const placeBet = () => {
@@ -281,13 +312,10 @@ const placeBet = () => {
   }
   console.log(dealerTotalCount, playerTotalCount);
   playerActionButtons.style.display = 'block'
+  distributeCards()
   showPlayerDealerCards()
-  playerDistributeCard()
 }
 
-const playerStandButton = () => {
-  dealerDistributeCard();
-}
 
 
 const handleClick = (evt) => {
@@ -295,41 +323,45 @@ const handleClick = (evt) => {
   if (button === 'start-button') {
     betOption();
     document.getElementById('play-again-button').style.display = 'none';
-    console.log(dealerTotalCount, playerTotalCount)
 
   }
   if (button === 'bet-button') {
-    newGame()
     placeBet();
     console.log(dealerTotalCount, playerTotalCount)
-
 
   }
   if (button === 'hit-button') {
     playerHitButton();
+    const aceTotalResult = checkAces(playerTotalCount, playerAceCount)
+    playerTotalCount = aceTotalResult[0];
+    playerAceCount = aceTotalResult[1];
     console.log(dealerTotalCount, playerTotalCount)
 
   }
   if (button === 'stand-button') {
     playerStandButton();
+    newBetButton.style.display = 'block'
+    playAgainButton.style.display = 'block'
     console.log(dealerTotalCount, playerTotalCount)
     console.log(dealerAceCount, playerAceCount)
-    
+
   }
-  if (button === 'play-again-button') {
+  if (button === 'new-bet-button') {
     newGame()
-    dealerCard1.className = ''
-    dealerCard2.className = ''
-    playerHoldingCard1.className = ''
-    playerHoldingCard2.className = ''
+    dealerCardsElClass()
+    dealerCardsElDisplay()
+    playerCardsElClass()
+    playerCardsElDisplay()
+    betOption()
+    nextRoundDisplay()
+
     console.log(playerHoldingCard1.classList,)
     console.log(playerHoldingCard2.classList)
     console.log(dealerCard1.classList)
     console.log(dealerCard2.classList)
 
-    betOption()
     console.log(dealerTotalCount, playerTotalCount)
-    playerDistributeCard(evt)
+    // playerDistributeCard(evt)
   }
   document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
 }
