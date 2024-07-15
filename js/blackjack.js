@@ -40,7 +40,11 @@ const newGame = () => {
   playerAceCount = 0
   playerBet = 0
 
+  document.getElementById('player-bet-value').innerHTML = ''
+  playerSubmittedBetValue.value = ''
   newBetButton.style.display = 'none'
+  message.innerHTML = ''
+
 }
 
 const dealerCardsElClass = () => {
@@ -96,6 +100,7 @@ const init = () => {
   playerCardsElClass()
   playerCardsElDisplay()
   helpDirectionsDisplay()
+  nextRoundDisplay()
 }
 
 init();
@@ -131,6 +136,13 @@ const dealerBlackJackLogic = () => {
   playerActionButtons.style.display = 'none'
 }
 
+const playerCashCheck = () => {
+  if (playerCash <= 0) {
+    newBetButton.style.display = 'none'
+    playAgainButton.style.display = 'block'
+  }
+}
+
 const winLogic = () => {
   if (playerTotalCount > 21) {
     message.innerHTML = `Player bust... You lose $${playerBet}`
@@ -147,9 +159,9 @@ const winLogic = () => {
     message.innerHTML = `Dealer has ${dealerTotalCount} and Player has ${playerTotalCount}. You win $${playerBet}`
     playerCash = playerCash + (playerBet * 2)
   }
-  playerActionButtons.style.display = 'none'
-  playAgainButton.style.display = 'block'
 
+  playerActionButtons.style.display = 'none'
+  newBetButton.style.display = 'block'
 }
 
 const showPlayerDealerCards = () => {
@@ -204,9 +216,9 @@ const dealersTurn = () => {
     const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
-    if (dealerTotalCount > 21) {
-      winLogic();
-    }
+    winLogic();
+  } else if (dealerTotalCount > 21) {
+    winLogic();
   } else while (dealerTotalCount < 17) {
     let dealerHitCard = randomizeCard()
     let dealerDiv = document.getElementById('dealer');
@@ -218,21 +230,16 @@ const dealersTurn = () => {
     dealerTotalCount += getCardValue(dealerHitCard)
     dealerAceCount += checkForAces(dealerHitCard)
     checkAces(dealerTotalCount, dealerAceCount);
-    
+
     const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
 
-    
     winLogic();
   }
 }
 
-const playerCards = () => {
-  if (playerTotalCount === 21) {
-    blackjackWinLogic();
-  }
-}
+
 
 const distributeCards = (evt) => {
   let playerCard1 = randomizeCard();
@@ -256,23 +263,26 @@ const distributeCards = (evt) => {
   dealerAceCount += checkForAces(dealerHiddenCard)
   dealerCard1.classList.add(dealerHiddenCard, 'large');
 
-  playerCards()
+  if (playerTotalCount === 21) {
+    blackjackWinLogic()
+    message.innerHTML = ''
+  }
+
+  if (dealerTotalCount === 21) {
+    dealerBlackJackLogic()
+    message.innerHTML = ''
+  }
+
+  if (playerTotalCount === 21 && dealerTotalCount === 21) {
+    winLogic()
+  }
+
 }
-
-
 
 const playerHitButton = () => {
   let playerHitCard = randomizeCard()
   let playerDiv = document.getElementById('player');
   let playerNewDiv = document.createElement('div');
-
-
-  // playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
-  // playerDiv.appendChild(playerNewDiv)
-
-  // playerTotalCount += getCardValue(playerHitCard)
-  // playerAceCount += checkForAces(playerHitCard)
-
 
   if (playerTotalCount > 21) {
     playerActionButtons.style.display = 'none'
@@ -294,7 +304,7 @@ const playerStandButton = () => {
 }
 
 const placeBet = () => {
-  playerBet = parseInt(document.getElementById('bet-placeholder').value)
+  playerBet = parseInt(playerSubmittedBetValue.value)
 
   if (typeof playerBet === 'number' && playerCash > 0 && playerCash >= playerBet && playerBet > 0) {
     playerCash = playerCash - playerBet
@@ -310,25 +320,20 @@ const placeBet = () => {
     playerBet = 0;
     return;
   }
-  console.log(dealerTotalCount, playerTotalCount);
   playerActionButtons.style.display = 'block'
   distributeCards()
   showPlayerDealerCards()
 }
 
-
-
 const handleClick = (evt) => {
   const button = evt.target.id
   if (button === 'start-button') {
     betOption();
-    document.getElementById('play-again-button').style.display = 'none';
-
+    playAgainButton.style.display = 'none'
   }
   if (button === 'bet-button') {
     placeBet();
     console.log(dealerTotalCount, playerTotalCount)
-
   }
   if (button === 'hit-button') {
     playerHitButton();
@@ -336,15 +341,15 @@ const handleClick = (evt) => {
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
     console.log(dealerTotalCount, playerTotalCount)
-
+    if (playerTotalCount > 21) {
+      winLogic()
+    }
   }
   if (button === 'stand-button') {
     playerStandButton();
     newBetButton.style.display = 'block'
-    playAgainButton.style.display = 'block'
     console.log(dealerTotalCount, playerTotalCount)
     console.log(dealerAceCount, playerAceCount)
-
   }
   if (button === 'new-bet-button') {
     newGame()
@@ -354,17 +359,22 @@ const handleClick = (evt) => {
     playerCardsElDisplay()
     betOption()
     nextRoundDisplay()
-
-    console.log(playerHoldingCard1.classList,)
-    console.log(playerHoldingCard2.classList)
-    console.log(dealerCard1.classList)
-    console.log(dealerCard2.classList)
-
-    console.log(dealerTotalCount, playerTotalCount)
-    // playerDistributeCard(evt)
+    if (playerCash <= 0) {
+      message.innerHTML = 'You have ran out of money. Better luck next time!'
+      playerSubmittedBetValue.style.display = 'none'
+      playerBetButton.style.display = 'none'
+      newBetButton.style.display = 'none'
+      playAgainButton.style.display= 'block'
+    }
+  }
+  if (button === 'play-again-button') {
+    playerCash = 1000
+    document.getElementById('start-button').style.display = 'block'
+    init();
   }
   document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
 }
+document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
 
 /*----------------------------- Event Listeners -----------------------------*/
 body.addEventListener('click', handleClick);
