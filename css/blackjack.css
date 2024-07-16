@@ -10,6 +10,7 @@ body {
   align-items: center;
   justify-content: space-evenly;
   height: 50vmax;
+  box-sizing: border-box;
 }
 
 .card {
@@ -108,4 +109,29 @@ input {
 
 .green-text {
   color: darkgreen
+}
+
+.bet-chips {
+  display: flex;
+  justify-content: space-between;
+}
+
+#chip-1,#chip-5,#chip-10,#chip-25,#chip-100,#chip-500 {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  padding: 1px;
+}
+
+#chip-1:hover,#chip-5:hover,#chip-10:hover,#chip-25:hover,#chip-100:hover,#chip-500:hover {
+opacity: 0.5;
+background-color: black;
+border: 2px solid black;
+cursor: pointer;
+
+}
+
+img {
+  height: 45px;
+  display: center;
 }

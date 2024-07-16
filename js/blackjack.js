@@ -30,6 +30,8 @@ const newBetButton = document.getElementById('new-bet-button')
 
 const helpDirections = document.getElementById('help-directions')
 const playerCashMessage = document.getElementById('player-cash')
+
+const betChips = document.getElementById('bet-chips');
 /*-------------------------------- Functions --------------------------------*/
 
 const newGame = () => {
@@ -40,12 +42,12 @@ const newGame = () => {
   playerAceCount = 0
   playerBet = 0
 
+  betChips.style.display = 'none'
   playerCashMessage.style.color = 'black'
   document.getElementById('player-bet-value').innerHTML = ''
   playerSubmittedBetValue.value = ''
   newBetButton.style.display = 'none'
   message.innerHTML = ''
-
 }
 
 const dealerCardsElClass = () => {
