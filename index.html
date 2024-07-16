@@ -4,28 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>	&#127153; Brian's BlackJack Table</title>
+  <title> &#127153; Brian's BlackJack Table</title>
   <link rel="stylesheet" href="./css/cardstarter.css">
   <link rel="stylesheet" href="./css/blackjack.css">
   <script defer src="./js/blackjack.js"></script>
 </head>
 
 <body>
-<h1>&#127183;&#127920; Brian's BlackJack Table &#127920;&#127183;</h1>
+  <h1>&#127183;&#127920; Brian's BlackJack Table &#127920;&#127183;</h1>
 
   <button class='button' id="start-button">Start Game</button>
-  <input id="bet-placeholder" placeholder="How much will you bet?">
+
   <div id="bet-chips">
-    <button id="chip-1"><img src="./chips/chip_01_dollar.png"></button>
-    <button id="chip-5"><img src="./chips/chip_05_dollar.png"></button>
-    <button id="chip-10"><img src="./chips/chip_10_dollar.png"></button>
-    <button id="chip-25"><img src="./chips/chip_25_dollar.png"></button>
-    <button id="chip-100"><img src="./chips/chip_100_dollar.png"></button>
-    <button id="chip-500"><img src="./chips/chip_500_dollar.png"></button>
+    <button class="chip-button"><img id="chip-1" src="./chips/chip_01_dollar.png"></button>
+    <button class="chip-button"><img id="chip-5" src="./chips/chip_05_dollar.png"></button>
+    <button class="chip-button"><img id="chip-10" src="./chips/chip_10_dollar.png"></button>
+    <button class="chip-button"><img id="chip-25" src="./chips/chip_25_dollar.png"></button>
+    <button class="chip-button"><img id="chip-100" src="./chips/chip_100_dollar.png"></button>
+    <button class="chip-button"><img id="chip-500" src="./chips/chip_500_dollar.png"></button>
   </div>
+
+  <p id="bet-placeholder"></p>
+
   <button id="bet-button">Place Bet</button>
-  
-  
+  <div id="reset-bet-button">
+    <button id="reset-bet">Reset</button>
+  </div>
+
+
   <h2 id="dealer-name">Dealer</h2>
   <div class="container" id="dealer">
     <br />
@@ -33,16 +39,18 @@
     <div id="dealer-showing-card" class="card large"></div>
   </div>
 
+ 
+
+
+  <button class='button' id="new-bet-button">Place New Bet</button>
+  <button class='button' id="play-again-button">Play Again</button>
+
+  <h2 id="player-name">Player</h2>
   <div class="bet">
     <p id="player-message"></p>
-    <p id="player-cash"></p>
     <p id="player-bet-value"></p>
   </div>
   
-  <button class='button' id="new-bet-button">Place New Bet</button>
-  <button class='button' id="play-again-button">Play Again</button>
-  
-  <h2 id="player-name">Player</h2>
   <div class="container" id="player">
     <div id="player-card-1" class="card large"></div>
     <div id="player-card-2" class="card large"></div>
@@ -54,23 +62,29 @@
   </div>
 
 
-  <div id="help-directions">
-    <span id='how-to-play-blackjack'>How to play Blackjack:</span>
-    <br />
-    <br />
-    1. Player and Dealer will receive 2 cards each
-    <br />
-    2. You can draw more cards using the ‘Hit’ button or stay using the ‘Stand’ button.
-    <br />
-    3. Your goal is to be closer to 21 than the dealer, without going over
-    <br />
-    4. If you beat the Dealer, you get double your money! IF not, you lose the bet you place.
-    <br />
-    5. Test your luck – good luck!
+  <div class='bet' id="help-button-container">
+    <p id="player-cash"></p>
+    <button class='button' id="help-button">Help?</button>
   </div>
-  <button class='button' id="help-button">Help?</button>
+  <div id="help-direction-container">
+    <div id="help-directions">
+      <span id='how-to-play-blackjack'>How to play Blackjack:</span>
+      <br />
+      <br />
+      1. Player and Dealer will receive 2 cards each
+      <br />
+      2. You can draw more cards using the ‘Hit’ button or stay using the ‘Stand’ button.
+      <br />
+      3. Your goal is to be closer to 21 than the dealer, without going over
+      <br />
+      4. If you beat the Dealer, you get double your money! IF not, you lose the bet you place.
+      <br />
+      5. Test your luck – good luck!
+    </div>
+  </div>
 
-  <div class= container id="playerCashPlaceholder">
+
+  <div class=container id="playerCashPlaceholder">
     <p id="playerCash"></p>
   </div>
 </body>

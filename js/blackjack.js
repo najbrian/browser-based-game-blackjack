@@ -31,7 +31,8 @@ const newBetButton = document.getElementById('new-bet-button')
 const helpDirections = document.getElementById('help-directions')
 const playerCashMessage = document.getElementById('player-cash')
 
-const betChips = document.getElementById('bet-chips');
+const betChips = document.getElementById('bet-chips')
+const resetBet = document.getElementById('reset-bet')
 /*-------------------------------- Functions --------------------------------*/
 
 const newGame = () => {
@@ -43,11 +44,14 @@ const newGame = () => {
   playerBet = 0
 
   betChips.style.display = 'none'
+  resetBet.style.display = 'none'
   playerCashMessage.style.color = 'black'
   document.getElementById('player-bet-value').innerHTML = ''
   playerSubmittedBetValue.value = ''
+  playerSubmittedBetValue.innerHTML = ''
   newBetButton.style.display = 'none'
   message.innerHTML = ''
+  playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
 }
 
 const dealerCardsElClass = () => {
@@ -90,7 +94,6 @@ const nextRoundDisplay = () => {
   })
 }
 
-
 const newDeck = () => {
   deck1 = ["dA", "dQ", "dK", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02", "hA", "hQ", "hK", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02", "cA", "cQ", "cK", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02", "sA", "sQ", "sK", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02"]
 }
@@ -109,13 +112,13 @@ const init = () => {
 init();
 
 
-const randomizeCard = () => {
+const getRandomCard = () => {
   let randomIdx = Math.floor(Math.random() * deck1.length)
   let randomizedCard = deck1.splice(randomIdx, 1)[0]
   return randomizedCard
 }
 
-const checkAces = (count, aces) => {
+const handleAceValue = (count, aces) => {
   while (count >= 21 && aces >= 1) {
     count = count - 10
     aces = aces - 1;
@@ -124,23 +127,24 @@ const checkAces = (count, aces) => {
   } return [count, aces]
 }
 
-const blackjackWinLogic = () => {
+const renderDealerBlackJack = () => {
+  message.innerHTML = `Dealer has 21. You lose <span class="red-text">$${playerBet}</span>`
+  playerCashMessage.style.color = 'rgb(210,2,2)'
+  newBetButton.style.display = 'block'
+  playerActionButtons.style.display = 'none'
+  document.getElementById('dealer-card').classList.remove('back-blue');
+}
+
+const renderPlayerBlackJackWin = () => {
   message.innerHTML = `You got BlackJack! You win! <span class="green-text">$${playerBet + (playerBet * 1.5)}</span>`
   playerCashMessage.style.color = 'darkgreen'
-  playerCash = playerCash + (playerBet + (playerBet * 1.5))
   document.getElementById('dealer-card').classList.remove('back-blue');
   newBetButton.style.display = 'block'
   playerActionButtons.style.display = 'none'
 }
 
-const dealerBlackJackLogic = () => {
-  message.innerHTML = `Dealer has 21. You lose <span class="red-text">$${playerBet}</span>`
-    playerCashMessage.style.color = 'rgb(210,2,2)'
-  newBetButton.style.display = 'block'
-  playerActionButtons.style.display = 'none'
-}
 
-const playerCashCheck = () => {
+const checkPlayerCash = () => {
   if (playerCash <= 0) {
     newBetButton.style.display = 'none'
     playAgainButton.style.display = 'block'
@@ -148,6 +152,7 @@ const playerCashCheck = () => {
 }
 
 const winLogic = () => {
+  console.log(`playerCash: ${playerCash}`)
   if (playerTotalCount > 21) {
     message.innerHTML = `Player bust... You lose <span class="red-text">$${playerBet}</span>`
     playerCashMessage.style.color = 'rgb(210,2,2)'
@@ -169,12 +174,23 @@ const winLogic = () => {
     playerCashMessage.style.color = 'darkgreen'
     playerCash = playerCash + (playerBet * 2)
   }
-
+  console.log(`playerCash: ${playerCash}`)
   playerActionButtons.style.display = 'none'
   newBetButton.style.display = 'block'
 }
 
-const showPlayerDealerCards = () => {
+const checkBlackJack = () => {
+  if (playerTotalCount === 21) {
+    playerCash = playerCash + (playerBet + (playerBet * 1.5))
+    renderPlayerBlackJackWin()
+  } else if (dealerTotalCount === 21) {
+    renderDealerBlackJack()
+  } else if (playerTotalCount === 21 && dealerTotalCount === 21) {
+    winLogic()
+  }
+}
+
+const renderPlayerDealerCards = () => {
   message.innerHTML = ''
   dealerCard1.style.display = 'block'
   dealerCard2.style.display = 'block'
@@ -185,6 +201,7 @@ const showPlayerDealerCards = () => {
   playerActionButtons.style.display = 'block'
   playerSubmittedBetValue.style.display = 'none'
   playerBetButton.style.display = 'none'
+
 
   console.log(dealerTotalCount, playerTotalCount);
 }
@@ -208,29 +225,40 @@ const checkForAces = (card) => {
   } return 0;
 }
 
-const betOption = () => {
+const chipBetOption = () => {
+  playerSubmittedBetValue.innerHTML = `Player Bet: $${playerBet}`
   document.getElementById('start-button').style.display = 'none'
+  betChips.style.display = 'block'
   playerSubmittedBetValue.style.display = 'block'
   playerBetButton.style.display = 'block'
-  console.log(playerTotalCount);
+}
+
+const resetBetButton = () => {
+  playerBet = 0
+  playerSubmittedBetValue.innerHTML = `$${playerBet}`
+}
+
+const betOption = () => {
+  document.getElementById('start-button').style.display = 'none'
+  betChips.style.display = 'block'
+  playerSubmittedBetValue.style.display = 'block'
+  playerBetButton.style.display = 'block'
 }
 
 const dealersTurn = () => {
   document.getElementById('dealer-card').classList.remove('back-blue');
   playerActionButtons.style.display = 'none'
 
-  if (dealerTotalCount === 21) {
-    dealerBlackJackLogic();
-  } else if (dealerTotalCount > 16) {
-    checkAces(dealerTotalCount, dealerAceCount);
-    const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
+  if (dealerTotalCount > 16) {
+    handleAceValue(dealerTotalCount, dealerAceCount);
+    const aceTotalResult = handleAceValue(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
     winLogic();
   } else if (dealerTotalCount > 21) {
     winLogic();
   } else while (dealerTotalCount < 17) {
-    let dealerHitCard = randomizeCard()
+    let dealerHitCard = getRandomCard()
     let dealerDiv = document.getElementById('dealer');
     let dealerNewDiv = document.createElement('div');
 
@@ -239,9 +267,9 @@ const dealersTurn = () => {
 
     dealerTotalCount += getCardValue(dealerHitCard)
     dealerAceCount += checkForAces(dealerHitCard)
-    checkAces(dealerTotalCount, dealerAceCount);
+    handleAceValue(dealerTotalCount, dealerAceCount);
 
-    const aceTotalResult = checkAces(dealerTotalCount, dealerAceCount)
+    const aceTotalResult = handleAceValue(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
 
@@ -250,10 +278,10 @@ const dealersTurn = () => {
 }
 
 const distributeCards = (evt) => {
-  let playerCard1 = randomizeCard();
-  let dealerShowingCard = randomizeCard();
-  let playerCard2 = randomizeCard();
-  let dealerHiddenCard = randomizeCard();
+  let playerCard1 = getRandomCard();
+  let dealerShowingCard = getRandomCard();
+  let playerCard2 = getRandomCard();
+  let dealerHiddenCard = getRandomCard();
 
   playerTotalCount += getCardValue(playerCard1)
   playerAceCount += checkForAces(playerCard1)
@@ -270,19 +298,10 @@ const distributeCards = (evt) => {
   dealerTotalCount += getCardValue(dealerHiddenCard)
   dealerAceCount += checkForAces(dealerHiddenCard)
   dealerCard1.classList.add(dealerHiddenCard, 'large');
-
-  if (playerTotalCount === 21) {
-    blackjackWinLogic()
-  } else if (dealerTotalCount === 21) {
-    dealerBlackJackLogic()
-  } else if (playerTotalCount === 21 && dealerTotalCount === 21) {
-    winLogic()
-  }
-
 }
 
 const playerHitButton = () => {
-  let playerHitCard = randomizeCard()
+  let playerHitCard = getRandomCard()
   let playerDiv = document.getElementById('player');
   let playerNewDiv = document.createElement('div');
 
@@ -306,8 +325,6 @@ const playerStandButton = () => {
 }
 
 const placeBet = () => {
-  playerBet = parseInt(playerSubmittedBetValue.value)
-
   if (typeof playerBet === 'number' && playerCash > 0 && playerCash >= playerBet && playerBet > 0) {
     playerCash = playerCash - playerBet
     document.getElementById('player-bet-value').innerHTML = `Player Bet: $${playerBet}`
@@ -322,9 +339,14 @@ const placeBet = () => {
     playerBet = 0;
     return;
   }
+  betChips.style.display = 'none'
+  playerSubmittedBetValue.style.display = 'none'
+  playerBetButton.style.display = 'none'
   playerActionButtons.style.display = 'block'
+  resetBet.style.display = 'none'
   distributeCards()
-  showPlayerDealerCards()
+  renderPlayerDealerCards()
+  checkBlackJack()
 }
 
 const handleClick = (evt) => {
@@ -332,17 +354,17 @@ const handleClick = (evt) => {
   if (button === 'start-button') {
     betOption();
     playAgainButton.style.display = 'none'
+    playerSubmittedBetValue.style.display = 'block'
+    resetBet.style.display = 'block'
   }
   if (button === 'bet-button') {
     placeBet();
-    console.log(dealerTotalCount, playerTotalCount)
   }
   if (button === 'hit-button') {
     playerHitButton();
-    const aceTotalResult = checkAces(playerTotalCount, playerAceCount)
+    const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
-    console.log(dealerTotalCount, playerTotalCount)
     if (playerTotalCount > 21) {
       winLogic()
     }
@@ -350,8 +372,7 @@ const handleClick = (evt) => {
   if (button === 'stand-button') {
     playerStandButton();
     newBetButton.style.display = 'block'
-    console.log(dealerTotalCount, playerTotalCount)
-    console.log(dealerAceCount, playerAceCount)
+    
   }
   if (button === 'new-bet-button') {
     newGame()
@@ -361,12 +382,15 @@ const handleClick = (evt) => {
     playerCardsElDisplay()
     betOption()
     nextRoundDisplay()
+    resetBet.style.display = 'block'
     if (playerCash <= 0) {
       message.innerHTML = 'You have ran out of money. Better luck next time!'
       playerSubmittedBetValue.style.display = 'none'
       playerBetButton.style.display = 'none'
       newBetButton.style.display = 'none'
       playAgainButton.style.display = 'block'
+      resetBet.style.display = 'none'
+      betChips.style.display = 'none'
     }
   }
   if (button === 'play-again-button') {
@@ -381,12 +405,20 @@ const handleClick = (evt) => {
     } else {
       helpDirections.style.display = 'none'
       document.getElementById('help-button').innerText = 'Help?'
-
     }
   }
+
+  if (button.includes('chip-')) {
+    playerBet += +button.slice(5)
+    chipBetOption()
+  }
+
+  if (button === 'reset-bet') {
+    resetBetButton()
+  }
+
   playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
 }
-playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
 
 /*----------------------------- Event Listeners -----------------------------*/
 body.addEventListener('click', handleClick);
