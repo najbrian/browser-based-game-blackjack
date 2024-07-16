@@ -255,25 +255,27 @@ const dealersTurn = () => {
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
     winLogic();
+    console.log(playerCash)
   } else if (dealerTotalCount > 21) {
     winLogic();
+    console.log(playerCash)
   } else while (dealerTotalCount < 17) {
     let dealerHitCard = getRandomCard()
     let dealerDiv = document.getElementById('dealer');
     let dealerNewDiv = document.createElement('div');
-
+    
     dealerNewDiv.classList.add('large', 'card', dealerHitCard, 'current-round-card')
     dealerDiv.appendChild(dealerNewDiv)
-
+    
     dealerTotalCount += getCardValue(dealerHitCard)
     dealerAceCount += checkForAces(dealerHitCard)
     handleAceValue(dealerTotalCount, dealerAceCount);
-
+    
     const aceTotalResult = handleAceValue(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
-
-    winLogic();
+    dealersTurn()
+    console.log(playerCash)
   }
 }
 
@@ -307,6 +309,7 @@ const playerHitButton = () => {
 
   if (playerTotalCount > 21) {
     playerActionButtons.style.display = 'none'
+    handleAceValue();
     winLogic()
   } else if (playerTotalCount < 21) {
     playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
@@ -330,12 +333,12 @@ const placeBet = () => {
     document.getElementById('player-bet-value').innerHTML = `Player Bet: $${playerBet}`
 
   } else if (typeof playerBet === 'number' && playerCash > 0 && playerCash < playerBet) {
-    message.innerHTML = 'You have insufficient funds. Please place a proper numerical bet to play Blackjack.'
+    message.innerHTML = 'You have insufficient funds. Please place a proper bet to play Blackjack.'
     playerBet = 0
     return;
 
   } else {
-    message.innerHTML = 'Please place a numerical bet more than 0 to play Blackjack.'
+    message.innerHTML = 'Please place a bet more than 0 to play Blackjack.'
     playerBet = 0;
     return;
   }
