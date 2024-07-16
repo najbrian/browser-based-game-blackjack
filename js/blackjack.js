@@ -29,7 +29,7 @@ const playAgainButton = document.getElementById('play-again-button')
 const newBetButton = document.getElementById('new-bet-button')
 
 const helpDirections = document.getElementById('help-directions')
-const playerCashMessage = document.getElementById('playercash')
+const playerCashMessage = document.getElementById('player-cash')
 /*-------------------------------- Functions --------------------------------*/
 
 const newGame = () => {
@@ -40,6 +40,7 @@ const newGame = () => {
   playerAceCount = 0
   playerBet = 0
 
+  playerCashMessage.style.color = 'black'
   document.getElementById('player-bet-value').innerHTML = ''
   playerSubmittedBetValue.value = ''
   newBetButton.style.display = 'none'
@@ -122,7 +123,8 @@ const checkAces = (count, aces) => {
 }
 
 const blackjackWinLogic = () => {
-  message.innerHTML = `You got BlackJack! You win! ${playerBet + (playerBet * 1.5)}`
+  message.innerHTML = `You got BlackJack! You win! <span class="green-text">$${playerBet + (playerBet * 1.5)}</span>`
+  playerCashMessage.style.color = 'darkgreen'
   playerCash = playerCash + (playerBet + (playerBet * 1.5))
   document.getElementById('dealer-card').classList.remove('back-blue');
   newBetButton.style.display = 'block'
@@ -130,8 +132,8 @@ const blackjackWinLogic = () => {
 }
 
 const dealerBlackJackLogic = () => {
-  message.innerHTML = `Dealer has 21. You lose ${playerBet}`
-  playerCash = playerCash - playerBet
+  message.innerHTML = `Dealer has 21. You lose <span class="red-text">$${playerBet}</span>`
+    playerCashMessage.style.color = 'rgb(210,2,2)'
   newBetButton.style.display = 'block'
   playerActionButtons.style.display = 'none'
 }
@@ -145,18 +147,24 @@ const playerCashCheck = () => {
 
 const winLogic = () => {
   if (playerTotalCount > 21) {
-    message.innerHTML = `Player bust... You lose $${playerBet}`
+    message.innerHTML = `Player bust... You lose <span class="red-text">$${playerBet}</span>`
+    playerCashMessage.style.color = 'rgb(210,2,2)'
+
     document.getElementById('dealer-card').classList.remove('back-blue', 'shadow', 'outline');
+
   } else if (dealerTotalCount > 21) {
-    message.innerHTML = `Dealer bust... You win $${playerBet * 2}!`
+    message.innerHTML = `Dealer bust... You win <span class="green-text">$${playerBet * 2}</span>`
+    playerCashMessage.style.color = 'darkgreen'
     playerCash = playerCash + (playerBet * 2)
   } else if (playerTotalCount === dealerTotalCount) {
     message.innerHTML = `Player and Dealer have the same count. You tie!`
     playerCash = playerCash + playerBet
   } else if (dealerTotalCount > playerTotalCount) {
-    message.innerHTML = `Dealer has ${dealerTotalCount} and Player has ${playerTotalCount}. You lose $${playerBet}`
+    message.innerHTML = `Dealer has ${dealerTotalCount} and Player has ${playerTotalCount}. You lose <span class="red-text">$${playerBet}</span>`
+    playerCashMessage.style.color = 'rgb(210,2,2)'
   } else if (dealerTotalCount < playerTotalCount) {
-    message.innerHTML = `Dealer has ${dealerTotalCount} and Player has ${playerTotalCount}. You win $${playerBet}`
+    message.innerHTML = `Dealer has ${dealerTotalCount} and Player has ${playerTotalCount}. You win <span class="green-text">$${playerBet * 2}</span>`
+    playerCashMessage.style.color = 'darkgreen'
     playerCash = playerCash + (playerBet * 2)
   }
 
@@ -239,8 +247,6 @@ const dealersTurn = () => {
   }
 }
 
-
-
 const distributeCards = (evt) => {
   let playerCard1 = randomizeCard();
   let dealerShowingCard = randomizeCard();
@@ -265,15 +271,9 @@ const distributeCards = (evt) => {
 
   if (playerTotalCount === 21) {
     blackjackWinLogic()
-    message.innerHTML = ''
-  }
-
-  if (dealerTotalCount === 21) {
+  } else if (dealerTotalCount === 21) {
     dealerBlackJackLogic()
-    message.innerHTML = ''
-  }
-
-  if (playerTotalCount === 21 && dealerTotalCount === 21) {
+  } else if (playerTotalCount === 21 && dealerTotalCount === 21) {
     winLogic()
   }
 
@@ -364,7 +364,7 @@ const handleClick = (evt) => {
       playerSubmittedBetValue.style.display = 'none'
       playerBetButton.style.display = 'none'
       newBetButton.style.display = 'none'
-      playAgainButton.style.display= 'block'
+      playAgainButton.style.display = 'block'
     }
   }
   if (button === 'play-again-button') {
@@ -375,14 +375,16 @@ const handleClick = (evt) => {
   if (button === 'help-button') {
     if (helpDirections.style.display === 'none') {
       helpDirections.style.display = 'block'
+      document.getElementById('help-button').innerText = 'Click to close'
     } else {
       helpDirections.style.display = 'none'
+      document.getElementById('help-button').innerText = 'Help?'
 
     }
   }
-  document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
+  playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
 }
-document.getElementById('player-cash').innerHTML = `Player Cash: $${playerCash}`
+playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
 
 /*----------------------------- Event Listeners -----------------------------*/
 body.addEventListener('click', handleClick);

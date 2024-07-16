@@ -35,7 +35,7 @@ body {
   display: inline-block;
 }
 
-.button, #bet-button {
+.button, #bet-button, #help-button {
   font-family: 'Josefin Sans', sans-serif;
   height: 2rem;
   width: auto;
@@ -44,8 +44,26 @@ body {
   border: none;
   cursor: pointer;
   margin: 5px;
+  border-radius: 7px;
+  transition: height 0.2s;
+  transition: font-size 0.2s;
+  
 }
 
+.button:hover, #bet-button:hover, #help-button:hover {
+  opacity: 0.75;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.8);
+  height: 3rem;
+  width: auto;
+  font-size: 25px;
+}
+
+.button:active, #bet-button:active, #help-button:active {
+  background-color: black;
+  color: white;
+  opacity: 0.70;
+  
+}
 
 #help-directions {
   display: flex;
@@ -69,6 +87,7 @@ body {
 }
 h1 {
   display: block;
+  font-weight: bold;
 }
 
 input {
@@ -76,8 +95,17 @@ input {
   font-size: 15px;
   text-align: center;
   width: 200px;
+  height: 25px;
 }
 
 .bet {
   text-align: center;
+}
+
+.red-text {
+  color: rgb(210, 2, 2);
+}
+
+.green-text {
+  color: darkgreen
 }
