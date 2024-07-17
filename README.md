@@ -23,8 +23,9 @@ At Brian's Blackjack table, you will get to play single deck Blackjack against t
 - CardStarter CSS Library
 
 # Getting Started
+Play game:
 
-[Link to game once deployed]
+https://najbrian.github.io/browser-based-game-blackjack/
 
 # Next Steps/Iterations
 
