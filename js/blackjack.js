@@ -119,7 +119,7 @@ const getRandomCard = () => {
 }
 
 const handleAceValue = (count, aces) => {
-  while (count >= 21 && aces >= 1) {
+  while (count > 21 && aces >= 1) {
     count = count - 10
     aces = aces - 1;
     console.log(count, aces)

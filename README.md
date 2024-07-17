@@ -30,4 +30,4 @@ At Brian's Blackjack table, you will get to play single deck Blackjack against t
 
 - Future Enhancement 1: create an insurance option when dealer has a face-up Ace
 - Future Enhancement 2: create a customized table for Brian's Blackjack table 
-- Future Enhancement 3: allow multiple players to play at the same table
+- Future Enhancement 3: allow player to split pairs at the beginning of the round
