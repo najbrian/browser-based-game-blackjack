@@ -36,7 +36,10 @@ body {
   display: inline-block;
 }
 
-.button, #bet-button, #help-button, #reset-bet {
+.button,
+#bet-button,
+#help-button,
+#reset-bet {
   font-family: 'Josefin Sans', sans-serif;
   height: auto;
   width: auto;
@@ -48,29 +51,34 @@ body {
   border-radius: 7px;
   transition: height 0.2s;
   transition: font-size 0.2s;
-  
+
 }
 
-.button:hover, #bet-button:hover, #reset-bet:hover {
+.button:hover,
+#bet-button:hover,
+#reset-bet:hover {
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.8);
   height: 3rem;
   width: auto;
   font-size: 25px;
 }
 
-.button:active, #bet-button:active, #help-button:active, #reset-bet:active {
+.button:active,
+#bet-button:active,
+#help-button:active,
+#reset-bet:active {
   background-color: black;
-  color: white;  
+  color: white;
 }
+
 #help-button {
   width: 100px;
 }
 
 
 #reset-bet-button {
-  display:flex;
+  display: flex;
   justify-content: center
-  
 }
 
 #help-directions {
@@ -81,8 +89,8 @@ body {
   border: 2px solid black;
 }
 
-#help-button-container,#help-direction-container
-{
+#help-button-container,
+#help-direction-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -103,27 +111,20 @@ body {
   display: flex;
   justify-content: space-evenly;
 }
+
 h1 {
   display: block;
   font-weight: bold;
 }
 
-input {
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 15px;
-  text-align: center;
-  width: 200px;
-  height: 25px;
-}
-
 #player-cash {
-  display:center;
+  display: center;
 }
 
 .bet {
   text-align: center;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 }
 
 .red-text {
@@ -147,14 +148,32 @@ input {
 }
 
 .chip-button:hover {
-opacity: 0.5;
-background-color: black;
-border: 2px solid black;
-cursor: pointer;
+  opacity: 0.5;
+  background-color: black;
+  border: 2px solid black;
+  cursor: pointer;
 
 }
 
 img {
   height: 45px;
   display: center;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  body {
+    font-family: 'Playwrite CU', sans-serif;
+    background-color: #5def92;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 70vh;
+    box-sizing: border-box;
+    font-size: 10px;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
 }

@@ -364,7 +364,6 @@ const handleClick = (evt) => {
     placeBet();
   }
   if (button === 'hit-button') {
-    handleAceValue(playerTotalCount, playerAceCount)
     const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
