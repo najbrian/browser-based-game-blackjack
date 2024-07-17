@@ -181,7 +181,7 @@ const winLogic = () => {
 
 const checkBlackJack = () => {
   if (playerTotalCount === 21) {
-    playerCash = playerCash + (playerBet + (playerBet * 1.5))
+    playerCash = Math.ceil(playerCash + (playerBet + (playerBet * 1.5)))
     renderPlayerBlackJackWin()
   } else if (dealerTotalCount === 21) {
     renderDealerBlackJack()

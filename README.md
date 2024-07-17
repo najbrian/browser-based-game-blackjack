@@ -2,7 +2,7 @@
 At Brian's Blackjack table, you will get to play single deck Blackjack against the house. Unlike normal Blackjack, there are a few unique rules at the Brian's table.
 
 1. Blackjack for dealer or player will result in an automatic end of round.
-2. Player Blackjack will lead to a 3:2 payout.
+2. Player Blackjack will lead to a 3:2 payout. At Brian's Blackjack Table, we feel generous so we will always round you up to the nearest $1!
 3. If Player and Dealer get 21, this will result in a tie (push).
 4. If you try to bet more than how much in the Player Cash, the game will not accept your bet. Simply click the 'reset' button to resubmit a wager.
 5. The game will end once you run out of money, but don't worry; at Brian's table, you can simply hit 'Play again' and your funds will reset to $1000!
