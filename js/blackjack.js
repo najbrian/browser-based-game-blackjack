@@ -52,6 +52,7 @@ const newGame = () => {
   newBetButton.style.display = 'none'
   message.innerHTML = ''
   playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
+  newDeck()
 }
 
 const dealerCardsElClass = () => {
@@ -95,6 +96,7 @@ const nextRoundDisplay = () => {
 }
 
 const newDeck = () => {
+
   deck1 = ["dA", "dQ", "dK", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02", "hA", "hQ", "hK", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02", "cA", "cQ", "cK", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02", "sA", "sQ", "sK", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02"]
 }
 
@@ -119,7 +121,7 @@ const getRandomCard = () => {
 }
 
 const handleAceValue = (count, aces) => {
-  while (count > 21 && aces >= 1) {
+  while (count > 21 && aces > 0) {
     count = count - 10
     aces = aces - 1;
     console.log(count, aces)
@@ -263,14 +265,14 @@ const dealersTurn = () => {
     let dealerHitCard = getRandomCard()
     let dealerDiv = document.getElementById('dealer');
     let dealerNewDiv = document.createElement('div');
-    
+
     dealerNewDiv.classList.add('large', 'card', dealerHitCard, 'current-round-card')
     dealerDiv.appendChild(dealerNewDiv)
-    
+
     dealerTotalCount += getCardValue(dealerHitCard)
     dealerAceCount += checkForAces(dealerHitCard)
     handleAceValue(dealerTotalCount, dealerAceCount);
-    
+
     const aceTotalResult = handleAceValue(dealerTotalCount, dealerAceCount)
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
@@ -306,16 +308,18 @@ const playerHitButton = () => {
   let playerHitCard = getRandomCard()
   let playerDiv = document.getElementById('player');
   let playerNewDiv = document.createElement('div');
+  console.log(playerTotalCount, 'player count before check')
+  playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
+  playerDiv.appendChild(playerNewDiv)
+  playerTotalCount += getCardValue(playerHitCard)
+  playerAceCount += checkForAces(playerHitCard)
 
   if (playerTotalCount > 21) {
-    playerActionButtons.style.display = 'none'
-    handleAceValue();
-    winLogic()
-  } else if (playerTotalCount < 21) {
-    playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
-    playerDiv.appendChild(playerNewDiv)
-    playerTotalCount += getCardValue(playerHitCard)
-    playerAceCount += checkForAces(playerHitCard)
+    const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
+    console.log(playerTotalCount, 'before');
+    playerTotalCount = aceTotalResult[0];
+    playerAceCount = aceTotalResult[1];
+    console.log(playerTotalCount, 'after')
   } else if (playerTotalCount === 21) {
     playerActionButtons.style.display = 'none'
     dealersTurn();
@@ -364,18 +368,16 @@ const handleClick = (evt) => {
     placeBet();
   }
   if (button === 'hit-button') {
-    const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
-    playerTotalCount = aceTotalResult[0];
-    playerAceCount = aceTotalResult[1];
     playerHitButton();
     if (playerTotalCount > 21) {
+      playerActionButtons.style.display = 'none'
       winLogic()
     }
   }
   if (button === 'stand-button') {
     playerStandButton();
     newBetButton.style.display = 'block'
-    
+
   }
   if (button === 'new-bet-button') {
     newGame()
