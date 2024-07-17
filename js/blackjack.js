@@ -124,7 +124,6 @@ const handleAceValue = (count, aces) => {
   while (count > 21 && aces > 0) {
     count = count - 10
     aces = aces - 1;
-    console.log(count, aces)
     return [count, aces]
   } return [count, aces]
 }
@@ -154,7 +153,6 @@ const checkPlayerCash = () => {
 }
 
 const winLogic = () => {
-  console.log(`playerCash: ${playerCash}`)
   if (playerTotalCount > 21) {
     message.innerHTML = `Player bust... You lose <span class="red-text">$${playerBet}</span>`
     playerCashMessage.style.color = 'rgb(210,2,2)'
@@ -176,7 +174,6 @@ const winLogic = () => {
     playerCashMessage.style.color = 'darkgreen'
     playerCash = playerCash + (playerBet * 2)
   }
-  console.log(`playerCash: ${playerCash}`)
   playerActionButtons.style.display = 'none'
   newBetButton.style.display = 'block'
 }
@@ -205,7 +202,6 @@ const renderPlayerDealerCards = () => {
   playerBetButton.style.display = 'none'
 
 
-  console.log(dealerTotalCount, playerTotalCount);
 }
 
 const getCardValue = (card) => {
@@ -257,10 +253,10 @@ const dealersTurn = () => {
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
     winLogic();
-    console.log(playerCash)
+
   } else if (dealerTotalCount > 21) {
     winLogic();
-    console.log(playerCash)
+
   } else while (dealerTotalCount < 17) {
     let dealerHitCard = getRandomCard()
     let dealerDiv = document.getElementById('dealer');
@@ -277,7 +273,7 @@ const dealersTurn = () => {
     dealerTotalCount = aceTotalResult[0];
     dealerAceCount = aceTotalResult[1];
     dealersTurn()
-    console.log(playerCash)
+
   }
 }
 
@@ -308,7 +304,6 @@ const playerHitButton = () => {
   let playerHitCard = getRandomCard()
   let playerDiv = document.getElementById('player');
   let playerNewDiv = document.createElement('div');
-  console.log(playerTotalCount, 'player count before check')
   playerNewDiv.classList.add('card', 'large', playerHitCard, 'current-round-card')
   playerDiv.appendChild(playerNewDiv)
   playerTotalCount += getCardValue(playerHitCard)
@@ -316,15 +311,14 @@ const playerHitButton = () => {
 
   if (playerTotalCount > 21) {
     const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
-    console.log(playerTotalCount, 'before');
+
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
-    console.log(playerTotalCount, 'after')
+
   } else if (playerTotalCount === 21) {
     playerActionButtons.style.display = 'none'
     dealersTurn();
   }
-  console.log(playerTotalCount, playerAceCount)
 }
 
 const playerStandButton = () => {
