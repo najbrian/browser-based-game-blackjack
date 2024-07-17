@@ -364,10 +364,11 @@ const handleClick = (evt) => {
     placeBet();
   }
   if (button === 'hit-button') {
-    playerHitButton();
+    handleAceValue(playerTotalCount, playerAceCount)
     const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
+    playerHitButton();
     if (playerTotalCount > 21) {
       winLogic()
     }
