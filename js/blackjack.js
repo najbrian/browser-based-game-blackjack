@@ -312,12 +312,13 @@ const playerHitButton = () => {
 
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
-
+    message.innerHTML = `Player Count: ${playerTotalCount}`
+    
   } else if (playerTotalCount === 21) {
     playerActionButtons.style.display = 'none'
+    message.innerHTML = `Player Count: ${playerTotalCount}`
     dealersTurn();
   }
-  message.innerHTML = `Player Count: ${playerTotalCount}`
 }
 
 const playerStandButton = () => {
