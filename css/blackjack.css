@@ -159,21 +159,3 @@ img {
   height: 45px;
   display: center;
 }
-
-@media (min-width: 320px) and (max-width: 480px) {
-  body {
-    font-family: 'Playwrite CU', sans-serif;
-    background-color: #5def92;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 70vh;
-    box-sizing: border-box;
-    font-size: 10px;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-  }
-}
