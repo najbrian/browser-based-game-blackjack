@@ -306,6 +306,8 @@ const playerHitButton = () => {
   playerDiv.appendChild(playerNewDiv)
   playerTotalCount += getCardValue(playerHitCard)
   playerAceCount += checkForAces(playerHitCard)
+  message.innerHTML = `Player Count: ${playerTotalCount}`
+
 
   if (playerTotalCount > 21) {
     const aceTotalResult = handleAceValue(playerTotalCount, playerAceCount)
@@ -313,11 +315,10 @@ const playerHitButton = () => {
     playerTotalCount = aceTotalResult[0];
     playerAceCount = aceTotalResult[1];
     message.innerHTML = `Player Count: ${playerTotalCount}`
-    
   } else if (playerTotalCount === 21) {
-    playerActionButtons.style.display = 'none'
     message.innerHTML = `Player Count: ${playerTotalCount}`
     dealersTurn();
+    playerActionButtons.style.display = 'none'
   }
 }
 
@@ -361,6 +362,7 @@ const handleClick = (evt) => {
   }
   if (button === 'bet-button') {
     placeBet();
+
   }
   if (button === 'hit-button') {
     playerHitButton();
