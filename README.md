@@ -32,3 +32,4 @@ https://najbrian.github.io/browser-based-game-blackjack/
 - Future Enhancement 1: create an insurance option when dealer has a face-up Ace
 - Future Enhancement 2: create a customized table for Brian's Blackjack table 
 - Future Enhancement 3: allow player to split pairs at the beginning of the round
+- Future Enhancement 4: compatability for mobile screens
