@@ -33,6 +33,7 @@ const playerCashMessage = document.getElementById('player-cash')
 
 const betChips = document.getElementById('bet-chips')
 const resetBet = document.getElementById('reset-bet')
+const playerName = document.getElementById('player-name')
 /*-------------------------------- Functions --------------------------------*/
 
 const newGame = () => {
@@ -137,7 +138,7 @@ const renderDealerBlackJack = () => {
 }
 
 const renderPlayerBlackJackWin = () => {
-  message.innerHTML = `You got BlackJack! You win! <span class="green-text">$${playerBet + (playerBet * 1.5)}</span>`
+  message.innerHTML = `You got BlackJack! You win! <span class="green-text">$${Math.ceil(playerBet + (playerBet * 1.5))}</span>`
   playerCashMessage.style.color = 'darkgreen'
   document.getElementById('dealer-card').classList.remove('back-blue');
   newBetButton.style.display = 'block'
@@ -319,6 +320,7 @@ const playerHitButton = () => {
     playerActionButtons.style.display = 'none'
     dealersTurn();
   }
+  message.innerHTML = `Player Count: ${playerTotalCount}`
 }
 
 const playerStandButton = () => {
@@ -348,6 +350,7 @@ const placeBet = () => {
   distributeCards()
   renderPlayerDealerCards()
   checkBlackJack()
+  message.innerHTML = `Player Count: ${playerTotalCount}`
 }
 
 const handleClick = (evt) => {
