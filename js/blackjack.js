@@ -56,24 +56,24 @@ const newGame = () => {
   newDeck()
 }
 
-const dealerCardsElClass = () => {
+const renderDealerCardsElClass = () => {
   dealerCard1.className = ''
   dealerCard2.className = ''
   dealerCard1.classList.add('card', 'large', 'back-blue');
   dealerCard2.classList.add('card', 'large');
 }
-const dealerCardsElDisplay = () => {
+const renderDealerCardsElDisplay = () => {
   dealerCard1.style.display = 'none'
   dealerCard2.style.display = 'none'
 }
 
-const playerCardsElClass = () => {
+const renderPlayerCardsElClass = () => {
   playerHoldingCard1.className = ''
   playerHoldingCard2.className = ''
   playerHoldingCard1.classList.add('card', 'large');
   playerHoldingCard2.classList.add('card', 'large');
 }
-const playerCardsElDisplay = () => {
+const renderPlayerCardsElDisplay = () => {
   playerHoldingCard1.style.display = 'none'
   playerHoldingCard2.style.display = 'none'
   playerActionButtons.style.display = 'none'
@@ -82,13 +82,13 @@ const playerCardsElDisplay = () => {
   playAgainButton.style.display = 'none'
 }
 
-const helpDirectionsDisplay = () => {
+const renderHelpDirectionsDisplay = () => {
   helpDirections.style.display = 'none'
   message.innerHTML = ''
   document.getElementById('player-bet-value').innerHTML = ''
 }
 
-const nextRoundDisplay = () => {
+const renderNextRoundDisplay = () => {
   newBetButton.style.display = 'none'
   const roundElements = document.querySelectorAll('.current-round-card')
   roundElements.forEach((element, i) => {
@@ -104,16 +104,15 @@ const newDeck = () => {
 const init = () => {
   newGame();
   newDeck();
-  dealerCardsElClass()
-  dealerCardsElDisplay()
-  playerCardsElClass()
-  playerCardsElDisplay()
-  helpDirectionsDisplay()
-  nextRoundDisplay()
+  renderDealerCardsElClass()
+  renderDealerCardsElDisplay()
+  renderPlayerCardsElClass()
+  renderPlayerCardsElDisplay()
+  renderHelpDirectionsDisplay()
+  renderNextRoundDisplay()
 }
 
 init();
-
 
 const getRandomCard = () => {
   let randomIdx = Math.floor(Math.random() * deck1.length)
@@ -378,12 +377,12 @@ const handleClick = (evt) => {
   }
   if (button === 'new-bet-button') {
     newGame()
-    dealerCardsElClass()
-    dealerCardsElDisplay()
-    playerCardsElClass()
-    playerCardsElDisplay()
+    renderDealerCardsElClass()
+    renderDealerCardsElDisplay()
+    renderPlayerCardsElClass()
+    renderPlayerCardsElDisplay()
     betOption()
-    nextRoundDisplay()
+    renderNextRoundDisplay()
     resetBet.style.display = 'block'
     if (playerCash <= 0) {
       message.innerHTML = 'You have ran out of money. Better luck next time!'
