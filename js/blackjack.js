@@ -8,8 +8,6 @@ let playerAceCount = 0
 let playerCash = 1000
 let playerBet = 0
 
-let dealtCardTemp
-
 let deck1
 
 /*------------------------ Cached Element References ------------------------*/
@@ -179,13 +177,13 @@ const winLogic = () => {
 }
 
 const checkBlackJack = () => {
-  if (playerTotalCount === 21) {
+  if (playerTotalCount === 21 && dealerTotalCount === 21) {
+    winLogic()
+  } else if (playerTotalCount === 21) {
     playerCash = Math.ceil(playerCash + (playerBet + (playerBet * 1.5)))
     renderPlayerBlackJackWin()
   } else if (dealerTotalCount === 21) {
     renderDealerBlackJack()
-  } else if (playerTotalCount === 21 && dealerTotalCount === 21) {
-    winLogic()
   }
 }
 
@@ -223,7 +221,7 @@ const checkForAces = (card) => {
   } return 0;
 }
 
-const chipBetOption = () => {
+const renderChipBetOption = () => {
   playerSubmittedBetValue.innerHTML = `Player Bet: $${playerBet}`
   document.getElementById('start-button').style.display = 'none'
   betChips.style.display = 'block'
@@ -231,12 +229,12 @@ const chipBetOption = () => {
   playerBetButton.style.display = 'block'
 }
 
-const resetBetButton = () => {
+const renderResetBetButton = () => {
   playerBet = 0
   playerSubmittedBetValue.innerHTML = `$${playerBet}`
 }
 
-const betOption = () => {
+const renderBetOption = () => {
   document.getElementById('start-button').style.display = 'none'
   betChips.style.display = 'block'
   playerSubmittedBetValue.style.display = 'block'
@@ -348,14 +346,14 @@ const placeBet = () => {
   resetBet.style.display = 'none'
   distributeCards()
   renderPlayerDealerCards()
-  checkBlackJack()
   message.innerHTML = `Player Count: ${playerTotalCount}`
+  checkBlackJack()
 }
 
 const handleClick = (evt) => {
   const button = evt.target.id
   if (button === 'start-button') {
-    betOption();
+    renderBetOption();
     playAgainButton.style.display = 'none'
     playerSubmittedBetValue.style.display = 'block'
     resetBet.style.display = 'block'
@@ -381,7 +379,7 @@ const handleClick = (evt) => {
     renderDealerCardsElDisplay()
     renderPlayerCardsElClass()
     renderPlayerCardsElDisplay()
-    betOption()
+    renderBetOption()
     renderNextRoundDisplay()
     resetBet.style.display = 'block'
     if (playerCash <= 0) {
@@ -411,11 +409,11 @@ const handleClick = (evt) => {
 
   if (button.includes('chip-')) {
     playerBet += +button.slice(5)
-    chipBetOption()
+    renderChipBetOption()
   }
 
   if (button === 'reset-bet') {
-    resetBetButton()
+    renderResetBetButton()
   }
 
   playerCashMessage.innerHTML = `Player Cash: $${playerCash}`
